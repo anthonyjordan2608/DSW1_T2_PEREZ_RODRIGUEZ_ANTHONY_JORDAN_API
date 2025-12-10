@@ -11,6 +11,20 @@ namespace Library.Infrastructure.Repositories
         {
         }
 
+        public override async Task<IEnumerable<Loan>> GetAllAsync()
+        {
+            return await _context.Loans
+                .Include(l => l.Book)  
+                .ToListAsync();
+        }
+
+        public override async Task<Loan?> GetByIdAsync(int id)
+        {
+            return await _context.Loans
+                .Include(l => l.Book)  
+                .FirstOrDefaultAsync(l => l.Id == id);
+        }
+
         public async Task<IEnumerable<Loan>> GetActiveLoansAsync()
         {
             return await _context.Loans
